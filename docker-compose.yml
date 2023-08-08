@@ -1,0 +1,68 @@
+version: "3.8"
+
+networks:
+  cargo-net:
+    external: true
+
+services:
+  cargo-db:
+    image: postgres:13
+    hostname: cargo-db
+    container_name: cargo-db
+    restart: always
+    networks:
+      - cargo-net
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=cargo
+    tty: true
+    volumes:
+      - ./.docker/cargo-db:/var/lib/postgresql/data
+
+  quote:
+    hostname: quote
+    container_name: quote
+    build:
+      context: services/quote
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - $PWD/services/quote:/usr/src/app
+      - $PWD/services/quote/usr/src/app/node_modules
+      - $HOME/.cache/yarn:/yarncache
+    command: yarn start:dev
+    environment:
+      - PORT=3000
+      - DATABASE_URL=postgresql://admin:admin@cargo-db/cargo
+    networks:
+      - cargo-net
+    ports:
+      - 3000:3000
+    depends_on:
+      - cargo-db
+
+  metrics:
+    hostname: metrics
+    container_name: metrics
+    build:
+      context: services/metrics
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - $PWD/services/metrics:/usr/src/app
+      - $PWD/services/metrics/usr/src/app/node_modules
+      - $HOME/.cache/yarn:/yarncache
+    command: yarn start:dev
+    environment:
+      - PORT=3010
+      - DATABASE_URL=postgresql://admin:admin@cargo-db/cargo
+    networks:
+      - cargo-net
+    ports:
+      - 3010:3010
+    depends_on:
+      - cargo-db
+  
