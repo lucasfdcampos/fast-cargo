@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { AccountType } from './common/decorators/account.decorator';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World, quote!';
+  getHello(accountData: AccountType) {
+    return { accountData };
   }
 }

@@ -1,12 +1,18 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
+import { AuthorizationGuard } from './common/guards/authorization.guard';
+import {
+  AccountType,
+  AccountData,
+} from './common/decorators/account.decorator';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  @UseGuards(AuthorizationGuard)
+  getHello(@AccountData() accountData: AccountType) {
+    return this.appService.getHello(accountData);
   }
 }

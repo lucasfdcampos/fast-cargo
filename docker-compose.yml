@@ -36,6 +36,7 @@ services:
     command: yarn start:dev
     environment:
       - PORT=3000
+      - SECRET=71f4a227d52116e7455a50e63146de18174e40a55d163ff57562a344b3fca755
       - DATABASE_URL=postgresql://admin:admin@cargo-db/cargo
     networks:
       - cargo-net
@@ -58,6 +59,7 @@ services:
     command: yarn start:dev
     environment:
       - PORT=3010
+      - SECRET=71f4a227d52116e7455a50e63146de18174e40a55d163ff57562a344b3fca755
       - DATABASE_URL=postgresql://admin:admin@cargo-db/cargo
     networks:
       - cargo-net
