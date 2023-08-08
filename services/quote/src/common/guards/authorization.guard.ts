@@ -30,8 +30,6 @@ export class AuthorizationGuard implements CanActivate {
         secret: process.env.SECRET,
       });
 
-      console.log('payload', payload);
-
       const { cnpj } = payload;
 
       const account = await this.accountRepository.findOne({
