@@ -1,4 +1,9 @@
-import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import axios from 'axios';
 
 @Injectable()
@@ -38,9 +43,15 @@ export class CustomHttp {
             error.response.status,
           );
         } else if (error.request) {
-          throw new HttpException('Nenhuma resposta recebida do servidor', 404);
+          throw new HttpException(
+            'Nenhuma resposta recebida do servidor',
+            HttpStatus.NOT_FOUND,
+          );
         } else {
-          throw new HttpException('Erro ao configurar a requisição', 400);
+          throw new HttpException(
+            'Erro ao configurar a requisição',
+            HttpStatus.BAD_REQUEST,
+          );
         }
       }
       throw new BadRequestException('Ocorreu um erro inesperado');
