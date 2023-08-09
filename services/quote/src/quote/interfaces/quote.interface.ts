@@ -1,3 +1,7 @@
+export interface ResponseDispachers {
+  dispatchers: Dispatcher[];
+}
+
 export interface Dispatcher {
   id: string;
   request_id: string;
