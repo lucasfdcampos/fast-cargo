@@ -1,16 +1,39 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CustomHttp } from 'src/common/http/custom.http';
 import { CreateQuoteDto } from '../dto/create-quote.dto';
 import { AccountType } from 'src/common/decorators/account.decorator';
+import { CarrierInfo } from '../interfaces/carrier.interface';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Quote } from '../entities/quote.entity';
+import { Repository } from 'typeorm';
+import { Offer } from '../interfaces/quote.interface';
 
 @Injectable()
 export class CreateQuoteService {
-  constructor(private readonly customHttp: CustomHttp) {}
+  constructor(
+    @InjectRepository(Quote)
+    private readonly quoteRepository: Repository<Quote>,
+    private readonly customHttp: CustomHttp,
+  ) {}
 
   async execute(
     data: CreateQuoteDto,
     accountData: AccountType,
-  ): Promise<CreateQuoteDto> {
+  ): Promise<CarrierInfo[]> {
+    const request = this.buildQuoteRequest(data, accountData);
+
+    const response = await this.postQuoteSimulate(request);
+
+    const carrierInfo = this.extractCarrierInfo(response);
+
+    const quoteInstances = this.createQuoteInstances(carrierInfo);
+
+    await this.saveQuoteInstances(quoteInstances);
+
+    return carrierInfo;
+  }
+
+  private buildQuoteRequest(data: CreateQuoteDto, accountData: AccountType) {
     const volumes = data.volumes.map((volume) => {
       return {
         amount: volume.amount,
@@ -68,11 +91,59 @@ export class CreateQuoteService {
       },
     };
 
+    return request;
+  }
+
+  private async postQuoteSimulate(request: any) {
     const { data: response } = await this.customHttp.post(
       `${process.env.INTEGRATION_URL}/quote/simulate`,
       request,
     );
 
     return response;
+  }
+
+  private extractCarrierInfo(response: any): CarrierInfo[] {
+    if (
+      !response?.dispatchers.length ||
+      !response?.dispatchers[0]?.offers.length
+    ) {
+      throw new HttpException(
+        'Não foram encontradas ofertas para a rota informada.',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    const carrierInfo: CarrierInfo[] = response.dispatchers[0]?.offers.map(
+      (offer: Offer) => {
+        return {
+          name: offer.carrier.name,
+          service: offer.service,
+          deadline: String(offer.delivery_time.days),
+          price: offer.final_price,
+        };
+      },
+    );
+
+    return carrierInfo;
+  }
+
+  private createQuoteInstances(carrierInfo: CarrierInfo[]) {
+    const quoteInstances = carrierInfo.map((info) => {
+      const quoteInstance = new Quote();
+      quoteInstance.name = info.name;
+      quoteInstance.service = info.service;
+      quoteInstance.deadline = info.deadline;
+      quoteInstance.price = info.price;
+      Object.assign(quoteInstance, info);
+
+      return quoteInstance;
+    });
+
+    return quoteInstances;
+  }
+
+  private async saveQuoteInstances(quoteInstances: Quote[]): Promise<void> {
+    await this.quoteRepository.save(quoteInstances);
   }
 }
