@@ -6,7 +6,7 @@ import { CarrierInfo } from '../interfaces/carrier.interface';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Quote } from '../entities/quote.entity';
 import { Repository } from 'typeorm';
-import { Offer } from '../interfaces/quote.interface';
+import { Dispatcher, Offer } from '../interfaces/quote.interface';
 
 @Injectable()
 export class CreateQuoteService {
@@ -94,7 +94,7 @@ export class CreateQuoteService {
     return request;
   }
 
-  private async postQuoteSimulate(request: any) {
+  private async postQuoteSimulate(request: any): Promise<Dispatcher> {
     const { data: response } = await this.customHttp.post(
       `${process.env.INTEGRATION_URL}/quote/simulate`,
       request,
