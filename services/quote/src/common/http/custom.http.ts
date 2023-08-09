@@ -5,8 +5,8 @@ import axios from 'axios';
 export class CustomHttp {
   /**
    * @description
-   * Este método é usado para fazer requisições HTTP externas.
-   * Ele recebe um objeto AxiosRequestConfig como parâmetro.
+   * Este método é usado para fazer requisições POST
+   * Ele recebe a URL e data (request data) como parâmetro.
    * Alguns campos desse objeto são obrigatórios, como mostrado no exemplo abaixo.
    *
    * @example
