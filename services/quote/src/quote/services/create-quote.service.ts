@@ -1,18 +1,20 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { CustomHttp } from 'src/common/http/custom.http';
 import { CreateQuoteDto } from '../dto/create-quote.dto';
 import { AccountType } from 'src/common/decorators/account.decorator';
 import { CarrierInfo } from '../interfaces/carrier.interface';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Quote } from '../entities/quote.entity';
-import { Repository } from 'typeorm';
 import { Offer, ResponseDispachers } from '../interfaces/quote.interface';
+import {
+  QuoteRepository,
+  QuoteRepositoryToken,
+} from '../domain/repository/quote.repository';
 
 @Injectable()
 export class CreateQuoteService {
   constructor(
-    @InjectRepository(Quote)
-    private readonly quoteRepository: Repository<Quote>,
+    @Inject(QuoteRepositoryToken)
+    private readonly repo: QuoteRepository,
     private readonly customHttp: CustomHttp,
   ) {}
 
@@ -144,6 +146,6 @@ export class CreateQuoteService {
   }
 
   private async saveQuoteInstances(quoteInstances: Quote[]): Promise<void> {
-    await this.quoteRepository.save(quoteInstances);
+    await this.repo.saveMany(quoteInstances);
   }
 }

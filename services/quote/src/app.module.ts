@@ -11,7 +11,6 @@ import { Quote } from './quote/entities/quote.entity';
   imports: [
     JwtModule.register({
       secret: process.env.SECRET,
-      signOptions: { expiresIn: '1h' },
     }),
     TypeOrmModule.forRoot({
       ...config,
