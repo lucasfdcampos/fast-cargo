@@ -19,7 +19,12 @@ export class AuthorizationGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const [, token] = request.headers.authorization?.split(' ');
+
+    const authorizationHeader = request.headers.authorization;
+    if (!authorizationHeader) {
+      throw new UnauthorizedException('Token de autenticação não fornecido.');
+    }
+    const [, token] = authorizationHeader.split(' ');
 
     if (!token) {
       throw new UnauthorizedException('Token de autenticação não fornecido.');

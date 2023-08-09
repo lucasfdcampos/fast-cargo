@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { config } from './orm.config';
 import { join } from 'path';
 import { Account } from './common/entities/account.entity';
+import { QuoteModule } from './quote/quote.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { Account } from './common/entities/account.entity';
       autoLoadEntities: true,
     }),
     TypeOrmModule.forFeature([Account]),
+    QuoteModule,
   ],
   controllers: [AppController],
   providers: [AppService],
