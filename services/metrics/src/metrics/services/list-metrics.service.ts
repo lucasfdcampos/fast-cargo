@@ -18,7 +18,7 @@ export class ListMetricsService {
     const metrics = await this.repo.getMetrics(Number(query.last_quotes));
 
     if (metrics.length === 0) {
-      throw new NotFoundException('Não foram encontradas métricas');
+      throw new NotFoundException('Não foram encontradas métricas.');
     }
 
     const metricsSummary = this.calculateMetrics(metrics);
