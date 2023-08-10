@@ -129,14 +129,6 @@ curl -X GET "http://localhost:8000/metrics?last_quotes=?" \
 
 
 ## Testes
-Para os testes é necessário passar algumas variáveis ambiente para conexão com PostgreSQL, mas já enviei preenchidas. Estes são encontrados em 
-``services/*/.env`` . **Não é correto enviar as secrets** - mas por ser um projeto _challenge_ acabei enviando.
-```env
-DB_TEST_HOST=localhost
-DB_TEST_USER=admin
-DB_TEST_PASSWORD=admin
-DB_TEST_DATABASE=transaction
-```
 
 #### _Quote_
 
