@@ -1,0 +1,51 @@
+_format_version: "1.1"
+services:
+  - name: Quote
+    host: quote
+    port: 3000
+    protocol: http
+    connect_timeout: 60000
+    read_timeout: 60000
+    write_timeout: 60000
+    retries: 5
+    routes:
+      - id: "fc5e3483-6a03-4da3-addc-0bd0b66e4c25"
+        methods:
+          - "POST"
+        paths:
+          - "/quote"
+        path_handling: "v1"
+        preserve_host: false
+        protocols:
+          - "http"
+          - "https"
+        regex_priority: 0
+        strip_path: false
+        https_redirect_status_code: 426
+        request_buffering: true
+        response_buffering: true
+      
+  - name: Metrics
+    host: metrics
+    port: 3010
+    protocol: http
+    connect_timeout: 60000
+    read_timeout: 60000
+    write_timeout: 60000
+    retries: 5
+    routes:
+      - id: "8852d967-9dc3-463d-a0fe-f2b8b388188b"
+        methods:
+          - "GET"
+        paths:
+          - "/metrics"
+        path_handling: "v1"
+        preserve_host: false
+        protocols:
+          - "http"
+          - "https"
+        regex_priority: 0
+        strip_path: false
+        https_redirect_status_code: 426
+        request_buffering: true
+        response_buffering: true
