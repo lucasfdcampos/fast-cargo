@@ -4,17 +4,17 @@ import { CreateQuoteService } from './services/create-quote.service';
 import {
   AccountData,
   AccountType,
-} from 'src/common/decorators/account.decorator';
-import { AuthorizationGuard } from 'src/common/guards/authorization.guard';
+} from '../common/decorators/account.decorator';
+import { AuthorizationGuard } from '../common/guards/authorization.guard';
 import {
   ApiBearerAuth,
   ApiOperation,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { HttpExceptionSwagger } from 'src/common/swagger/http-exception.swagger';
-import { CreateQuoteSwagger } from 'src/common/swagger/create-quote.swagger';
-import { BadRequestSwagger } from 'src/common/swagger/bad-request.swagger';
+import { HttpExceptionSwagger } from '../common/swagger/http-exception.swagger';
+import { CreateQuoteSwagger } from '../common/swagger/create-quote.swagger';
+import { BadRequestSwagger } from '../common/swagger/bad-request.swagger';
 
 @ApiTags('Quotes')
 @ApiBearerAuth()
