@@ -2,9 +2,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { MetricsRepositoryInMemory } from '../../../test/in-memory-metrics-repository';
 import { ListMetricsService } from './list-metrics.service';
 import { MetricsRepositoryToken } from '../domain/repository/metrics.repository';
-import { Quote } from 'src/common/entities/quote.entity';
+import { Quote } from '../../common/entities/quote.entity';
 import { MetricsParam } from '../dto/metrics.param';
 import { NotFoundException } from '@nestjs/common';
+import { IMetricsSummary } from '../domain/interfaces/metrics.interface';
 
 const mockQuotes: Quote[] = [
   {
@@ -59,7 +60,7 @@ const mockQuotes: Quote[] = [
   },
 ];
 
-const mockSummary = {
+const mockSummary: IMetricsSummary = {
   carriers: [
     {
       carrier: 'UBER',
