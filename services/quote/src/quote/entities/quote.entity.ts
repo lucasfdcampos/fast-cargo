@@ -1,5 +1,5 @@
 import { Entity, Column } from 'typeorm';
-import { AbstractEntity } from 'src/common/entities/abstract.entity';
+import { AbstractEntity } from '../../common/entities/abstract.entity';
 import { ApiProperty } from '@nestjs/swagger';
 
 @Entity({ name: 'quote' })

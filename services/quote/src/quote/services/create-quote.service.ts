@@ -1,7 +1,6 @@
 import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
-import { CustomHttp } from 'src/common/http/custom.http';
 import { CreateQuoteDto } from '../dto/create-quote.dto';
-import { AccountType } from 'src/common/decorators/account.decorator';
+import { AccountType } from '../../common/decorators/account.decorator';
 import { CarrierInfo } from '../interfaces/carrier.interface';
 import { Quote } from '../entities/quote.entity';
 import { Offer, ResponseDispachers } from '../interfaces/quote.interface';
@@ -9,13 +8,13 @@ import {
   QuoteRepository,
   QuoteRepositoryToken,
 } from '../domain/repository/quote.repository';
+import axios from 'axios';
 
 @Injectable()
 export class CreateQuoteService {
   constructor(
     @Inject(QuoteRepositoryToken)
     private readonly repo: QuoteRepository,
-    private readonly customHttp: CustomHttp,
   ) {}
 
   async execute(
@@ -35,7 +34,7 @@ export class CreateQuoteService {
     return carrierInfo;
   }
 
-  private buildQuoteRequest(data: CreateQuoteDto, accountData: AccountType) {
+  buildQuoteRequest(data: CreateQuoteDto, accountData: AccountType) {
     const volumes = data.volumes.map((volume) => {
       return {
         amount: volume.amount,
@@ -96,8 +95,8 @@ export class CreateQuoteService {
     return request;
   }
 
-  private async postQuoteSimulate(request: any): Promise<ResponseDispachers> {
-    const { data: response } = await this.customHttp.post(
+  async postQuoteSimulate(request: any): Promise<ResponseDispachers> {
+    const { data: response } = await axios.post(
       `${process.env.INTEGRATION_URL}/quote/simulate`,
       request,
     );
@@ -105,7 +104,7 @@ export class CreateQuoteService {
     return response;
   }
 
-  private extractCarrierInfo(response: ResponseDispachers): CarrierInfo[] {
+  extractCarrierInfo(response: ResponseDispachers): CarrierInfo[] {
     if (
       !response?.dispatchers.length ||
       !response?.dispatchers[0]?.offers.length
@@ -115,7 +114,6 @@ export class CreateQuoteService {
         HttpStatus.NOT_FOUND,
       );
     }
-
     const carrierInfo: CarrierInfo[] = response.dispatchers[0]?.offers.map(
       (offer: Offer) => {
         return {
@@ -130,7 +128,7 @@ export class CreateQuoteService {
     return carrierInfo;
   }
 
-  private createQuoteInstances(carrierInfo: CarrierInfo[]) {
+  createQuoteInstances(carrierInfo: CarrierInfo[]) {
     const quoteInstances = carrierInfo.map((info) => {
       const quoteInstance = new Quote();
       quoteInstance.name = info.name;
@@ -145,7 +143,7 @@ export class CreateQuoteService {
     return quoteInstances;
   }
 
-  private async saveQuoteInstances(quoteInstances: Quote[]): Promise<void> {
+  async saveQuoteInstances(quoteInstances: Quote[]): Promise<void> {
     await this.repo.saveMany(quoteInstances);
   }
 }

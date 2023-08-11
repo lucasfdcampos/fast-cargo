@@ -5,7 +5,7 @@ import {
 } from '../domain/repository/metrics.repository';
 import { MetricsParam } from '../dto/metrics.param';
 import { IMetricsSummary } from '../domain/interfaces/metrics.interface';
-import { Quote } from 'src/common/entities/quote.entity';
+import { Quote } from '../../common/entities/quote.entity';
 
 @Injectable()
 export class ListMetricsService {
