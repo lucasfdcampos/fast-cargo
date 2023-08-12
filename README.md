@@ -31,7 +31,7 @@ Solução para realizar cotações e retornar métricas dos resultados.
 - [Anotações](#anotações)
 
 ## Solução
-Esta solução consiste em dois microsserviços onde é possível realizar as seguintes operações:
+Esta solução consiste em dois _microservices_ onde é possível realizar as seguintes operações:
 
 - _Quotes_
   - Requisitar cotações
@@ -42,7 +42,7 @@ Esta solução consiste em dois microsserviços onde é possível realizar as se
 
 ![image info](./architecture.png)
 
-Conforme a figura acima, toda estrutura está em containers _Docker_ onde temos dois microsserviços: **_Quote_** e **_Metrics_**. Ambos serviços se conectam ao banco de dados PostgreSQL para persistência e fonte de dados. 
+Conforme a figura acima, toda estrutura está em containers _Docker_ onde temos dois _microservices_: **_Quote_** e **_Metrics_**. Ambos serviços se conectam ao banco de dados PostgreSQL para persistência e fonte de dados. 
 
 Ambos serviços estão conectados ao Kong API-Gateway.
 
@@ -128,7 +128,7 @@ curl -X GET "http://localhost:8000/metrics?last_quotes=?" \
 
 
 ## Testes
-Para os testes é necessário passar algumas variáveis ambiente, como a _secret_ do _token_ de autorização e _URL_ da *Frete Rápido*. Estes são encontrados em ``services/*/.env`` . Não é correto enviar as _secrets_ - mas por ser um projeto challenge acabei enviando.
+Para os testes é necessário passar algumas variáveis ambiente, como a _secret_ do _token_ de autorização e _URL_ da *Frete Rápido*. Estes são encontrados em ``services/*/.env``. **Não é correto enviar as _secrets_** - mas por ser um projeto _challenge_ acabei enviando.
 
 ```env
 SECRET=71f4a227d52116e7455a50e63146de18174e40a55d163ff57562a344b3fca755
