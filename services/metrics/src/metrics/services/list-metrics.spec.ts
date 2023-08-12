@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MetricsRepositoryInMemory } from '../../../test/in-memory-metrics-repository';
+import { MetricsRepositoryInMemory } from '../../../test/repositories/in-memory-metrics-repository';
 import { ListMetricsService } from './list-metrics.service';
 import { MetricsRepositoryToken } from '../domain/repository/metrics.repository';
 import { Quote } from '../../common/entities/quote.entity';

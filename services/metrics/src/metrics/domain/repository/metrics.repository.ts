@@ -1,4 +1,4 @@
-import { Quote } from 'src/common/entities/quote.entity';
+import { Quote } from '../../../common/entities/quote.entity';
 
 export interface MetricsRepository {
   getMetrics(lastQuotes?: number): Promise<Quote[]>;
