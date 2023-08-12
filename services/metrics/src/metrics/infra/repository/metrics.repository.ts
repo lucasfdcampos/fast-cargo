@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Quote } from 'src/common/entities/quote.entity';
-import { MetricsRepository } from 'src/metrics/domain/repository/metrics.repository';
+import { Quote } from '../../../common/entities/quote.entity';
+import { MetricsRepository } from '../../../metrics/domain/repository/metrics.repository';
 import { DataSource, Repository } from 'typeorm';
 
 @Injectable()

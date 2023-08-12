@@ -1,6 +1,6 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { ListMetricsService } from './services/list-metrics.service';
-import { AuthorizationGuard } from 'src/common/guards/authorization.guard';
+import { AuthorizationGuard } from '../common/guards/authorization.guard';
 import { MetricsParam } from './dto/metrics.param';
 import {
   ApiBearerAuth,
@@ -8,8 +8,8 @@ import {
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { HttpExceptionSwagger } from 'src/common/swagger/http-exception.swagger';
-import { ListMetricsSwagger } from 'src/common/swagger/list-metrics.swagger';
+import { HttpExceptionSwagger } from '../common/swagger/http-exception.swagger';
+import { ListMetricsSwagger } from '../common/swagger/list-metrics.swagger';
 
 @ApiTags('Metrics')
 @ApiBearerAuth()

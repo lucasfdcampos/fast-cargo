@@ -1,4 +1,4 @@
-import { Quote } from 'src/quote/entities/quote.entity';
+import { Quote } from '../../../quote/entities/quote.entity';
 
 export interface QuoteRepository {
   saveMany(quotes: Quote[]): Promise<Quote[]>;
