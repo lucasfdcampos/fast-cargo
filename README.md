@@ -31,7 +31,7 @@ Solução para realizar cotações e retornar métricas dos resultados.
 - [Anotações](#anotações)
 
 ## Solução
-Esta solução consiste em dois microsserviços onde é possível realizar as seguintes operações:
+Esta solução consiste em dois _microservices_ onde é possível realizar as seguintes operações:
 
 - _Quotes_
   - Requisitar cotações
