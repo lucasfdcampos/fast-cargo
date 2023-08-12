@@ -25,6 +25,8 @@ export class CreateQuoteService {
 
     const response = await this.postQuoteSimulate(request);
 
+    console.log('response', response);
+
     const carrierInfo = this.extractCarrierInfo(response);
 
     const quoteInstances = this.createQuoteInstances(carrierInfo);
@@ -99,7 +101,14 @@ export class CreateQuoteService {
     const { data: response } = await axios.post(
       `${process.env.INTEGRATION_URL}/quote/simulate`,
       request,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
     );
+
+    console.log('response', response);
 
     return response;
   }

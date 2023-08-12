@@ -7,6 +7,9 @@ import { AccountType } from 'src/common/decorators/account.decorator';
 import { CarrierInfo } from '../interfaces/carrier.interface';
 import { Quote } from '../entities/quote.entity';
 
+// Mocking Axios
+jest.mock('axios');
+
 const mockData: CreateQuoteDto = {
   recipient: {
     address: {
