@@ -7,79 +7,11 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CreateQuoteService } from './services/create-quote.service';
-import { CarrierInfo } from './interfaces/carrier.interface';
-import { CreateQuoteDto } from './dto/create-quote.dto';
-import { AccountType } from '../common/decorators/account.decorator';
-
-const mockData: CreateQuoteDto = {
-  recipient: {
-    address: {
-      zipcode: '01311000',
-    },
-  },
-  volumes: [
-    {
-      category: 7,
-      amount: 1,
-      unitary_weight: 5,
-      price: 349,
-      sku: 'abc-teste-123',
-      height: 0.2,
-      width: 0.2,
-      length: 0.2,
-    },
-    {
-      category: 7,
-      amount: 2,
-      unitary_weight: 4,
-      price: 556,
-      sku: 'abc-teste-527',
-      height: 0.4,
-      width: 0.6,
-      length: 0.15,
-    },
-  ],
-};
-
-const mockAccountData: AccountType = {
-  cnpj: '25438296000158',
-  jwtToken: '1d52a9b6b78cf07b08586152459a5c90',
-  platformCode: '5AKVkHqCn',
-  zipCode: '29161-376',
-};
-
-const mockCarriers: CarrierInfo[] = [
-  {
-    name: 'UBER',
-    service: 'Normal',
-    deadline: '4',
-    price: 58.95,
-  },
-  {
-    name: 'CORREIOS',
-    service: 'Normal',
-    deadline: '5',
-    price: 78.03,
-  },
-  {
-    name: 'CORREIOS',
-    service: 'PAC',
-    deadline: '5',
-    price: 92.45,
-  },
-  {
-    name: 'BTU BRASPRESS',
-    service: 'Normal',
-    deadline: '5',
-    price: 93.35,
-  },
-  {
-    name: 'CORREIOS',
-    service: 'SEDEX',
-    deadline: '1',
-    price: 162.68,
-  },
-];
+import {
+  createQuoteDto,
+  mockAccountData,
+  mockCarrierInfo,
+} from '../../test/mocks';
 
 describe('QuoteController', () => {
   let quoteController: QuoteController;
@@ -96,7 +28,7 @@ describe('QuoteController', () => {
         {
           provide: CreateQuoteService,
           useValue: {
-            execute: jest.fn().mockResolvedValue(mockCarriers),
+            execute: jest.fn().mockResolvedValue(mockCarrierInfo),
           },
         },
       ],
@@ -117,10 +49,13 @@ describe('QuoteController', () => {
   describe('create', () => {
     it('should return offer simulations on carriers info', async () => {
       // Act
-      const result = await quoteController.create(mockData, mockAccountData);
+      const result = await quoteController.create(
+        createQuoteDto,
+        mockAccountData,
+      );
 
       // Assert
-      expect(result).toBe(mockCarriers);
+      expect(result).toBe(mockCarrierInfo);
     });
 
     it('should throw BadRequestException on bad request', async () => {
@@ -131,7 +66,7 @@ describe('QuoteController', () => {
 
       // Act and Assert
       await expect(
-        quoteController.create(mockData, mockAccountData),
+        quoteController.create(createQuoteDto, mockAccountData),
       ).rejects.toThrow(BadRequestException);
     });
 
@@ -145,7 +80,7 @@ describe('QuoteController', () => {
 
       // Act and Assert
       await expect(
-        quoteController.create(mockData, mockAccountData),
+        quoteController.create(createQuoteDto, mockAccountData),
       ).rejects.toThrow(NotFoundException);
     });
   });

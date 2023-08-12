@@ -6,8 +6,7 @@ import { QuoteRepositoryInMemory } from './repositories/in-memory-quote-reposito
 import { QuoteRepositoryToken } from '../src/quote/domain/repository/quote.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Quote } from '../src/quote/entities/quote.entity';
-import { CreateQuoteDto } from '../src/quote/dto/create-quote.dto';
-import { CarrierInfo } from '../src/quote/interfaces/carrier.interface';
+import { createQuoteDto, mockCarrierInfo, mockToken } from './mocks';
 import * as request from 'supertest';
 import * as dotenv from 'dotenv';
 
@@ -50,79 +49,13 @@ describe('QuoteController (e2e)', () => {
 
   describe('[POST] /quote', () => {
     it('should return offer simulations on carriers info', async () => {
-      const createQuoteDto: CreateQuoteDto = {
-        recipient: {
-          address: {
-            zipcode: '01311000',
-          },
-        },
-        volumes: [
-          {
-            category: 7,
-            amount: 1,
-            unitary_weight: 5,
-            price: 349,
-            sku: 'abc-teste-123',
-            height: 0.2,
-            width: 0.2,
-            length: 0.2,
-          },
-          {
-            category: 7,
-            amount: 2,
-            unitary_weight: 4,
-            price: 556,
-            sku: 'abc-teste-527',
-            height: 0.4,
-            width: 0.6,
-            length: 0.15,
-          },
-        ],
-      };
-
-      const mockCarrierInfo: CarrierInfo[] = [
-        {
-          name: 'UBER',
-          service: 'Normal',
-          deadline: '4',
-          price: 58.95,
-        },
-        {
-          name: 'CORREIOS',
-          service: 'Normal',
-          deadline: '5',
-          price: 78.03,
-        },
-        {
-          name: 'CORREIOS',
-          service: 'PAC',
-          deadline: '5',
-          price: 92.45,
-        },
-        {
-          name: 'BTU BRASPRESS',
-          service: 'Normal',
-          deadline: '5',
-          price: 93.35,
-        },
-        {
-          name: 'CORREIOS',
-          service: 'SEDEX',
-          deadline: '1',
-          price: 162.68,
-        },
-      ];
-
-      const token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbnBqIjoiMjU0MzgyOTYwMDAxNTgifQ.maLLvC5ily7BSrnmsPN3kX6aUmWPd4nTGFTNS8K2jVE';
-
       jest
         .spyOn(createQuoteService, 'execute')
         .mockResolvedValue(mockCarrierInfo);
 
       const response = await request(app.getHttpServer())
         .post('/quote')
-        .set('Authorization', `Bearer ${token}`)
+        .set('Authorization', `Bearer ${mockToken}`)
         .send(createQuoteDto)
         .expect(HttpStatus.CREATED);
 
@@ -130,39 +63,6 @@ describe('QuoteController (e2e)', () => {
     });
 
     it('should handle error when no offers are found', async () => {
-      const createQuoteDto: CreateQuoteDto = {
-        recipient: {
-          address: {
-            zipcode: '01311000',
-          },
-        },
-        volumes: [
-          {
-            category: 7,
-            amount: 1,
-            unitary_weight: 5,
-            price: 349,
-            sku: 'abc-teste-123',
-            height: 0.2,
-            width: 0.2,
-            length: 0.2,
-          },
-          {
-            category: 7,
-            amount: 2,
-            unitary_weight: 4,
-            price: 556,
-            sku: 'abc-teste-527',
-            height: 0.4,
-            width: 0.6,
-            length: 0.15,
-          },
-        ],
-      };
-
-      const token =
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbnBqIjoiMjU0MzgyOTYwMDAxNTgifQ.maLLvC5ily7BSrnmsPN3kX6aUmWPd4nTGFTNS8K2jVE';
-
       jest.spyOn(createQuoteService, 'execute').mockImplementationOnce(() => {
         throw new HttpException(
           'Não foram encontradas ofertas para a rota informada.',
@@ -172,7 +72,7 @@ describe('QuoteController (e2e)', () => {
 
       const response = await request(app.getHttpServer())
         .post('/quote')
-        .set('Authorization', `Bearer ${token}`)
+        .set('Authorization', `Bearer ${mockToken}`)
         .send(createQuoteDto)
         .expect(HttpStatus.NOT_FOUND);
 
@@ -183,36 +83,6 @@ describe('QuoteController (e2e)', () => {
     });
 
     it('should handle error when no authentication token is provided', async () => {
-      const createQuoteDto: CreateQuoteDto = {
-        recipient: {
-          address: {
-            zipcode: '01311000',
-          },
-        },
-        volumes: [
-          {
-            category: 7,
-            amount: 1,
-            unitary_weight: 5,
-            price: 349,
-            sku: 'abc-teste-123',
-            height: 0.2,
-            width: 0.2,
-            length: 0.2,
-          },
-          {
-            category: 7,
-            amount: 2,
-            unitary_weight: 4,
-            price: 556,
-            sku: 'abc-teste-527',
-            height: 0.4,
-            width: 0.6,
-            length: 0.15,
-          },
-        ],
-      };
-
       const response = await request(app.getHttpServer())
         .post('/quote')
         .send(createQuoteDto)
@@ -226,36 +96,6 @@ describe('QuoteController (e2e)', () => {
     });
 
     it('should handle error when authentication token is invalid', async () => {
-      const createQuoteDto: CreateQuoteDto = {
-        recipient: {
-          address: {
-            zipcode: '01311000',
-          },
-        },
-        volumes: [
-          {
-            category: 7,
-            amount: 1,
-            unitary_weight: 5,
-            price: 349,
-            sku: 'abc-teste-123',
-            height: 0.2,
-            width: 0.2,
-            length: 0.2,
-          },
-          {
-            category: 7,
-            amount: 2,
-            unitary_weight: 4,
-            price: 556,
-            sku: 'abc-teste-527',
-            height: 0.4,
-            width: 0.6,
-            length: 0.15,
-          },
-        ],
-      };
-
       const invalidToken = 'invalid_token';
 
       const response = await request(app.getHttpServer())
