@@ -42,7 +42,7 @@ Esta solução consiste em dois microsserviços onde é possível realizar as se
 
 ![image info](./architecture.png)
 
-Conforme a figura acima, toda estrutura está em containers _Docker_ onde temos dois microsserviços: **_Quote_** e **_Metrics_**. Ambos serviços se conectam ao banco de dados PostgreSQL para persistência e fonte de dados. 
+Conforme a figura acima, toda estrutura está em containers _Docker_ onde temos dois _microservices_: **_Quote_** e **_Metrics_**. Ambos serviços se conectam ao banco de dados PostgreSQL para persistência e fonte de dados. 
 
 Ambos serviços estão conectados ao Kong API-Gateway.
 
