@@ -78,8 +78,7 @@ docker-compose up -d
 
 Pode ser importado as _collections_ do _Insomnia_ (``made by Kong``) ou utilizar os comandos diretamente no terminal (via curl) - para isso é necessário ter o curl instalado.
 
-[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=Fast-Cargo&uri=https%3A%2F%2Fraw.githubusercontent.com%2Flucasfdcampos%2Ffast-cargo%2Fmaster%2Fcargo_insomnia.json)
-
+[![Run in Insomnia}](https://insomnia.rest/images/run.svg)](https://insomnia.rest/run/?label=Fast%20Cargo&uri=https%3A%2F%2Fraw.githubusercontent.com%2Flucasfdcampos%2Ffast-cargo%2Fmaster%2Fcargo_insomnia.json)
 
 #### Requisitando cotações
 
