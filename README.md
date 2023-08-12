@@ -128,7 +128,7 @@ curl -X GET "http://localhost:8000/metrics?last_quotes=?" \
 
 
 ## Testes
-Para os testes é necessário passar algumas variáveis ambiente, como a _secret_ do _token_ de autorização e _URL_ da *Frete Rápido*. Estes são encontrados em ``services/*/.env``. *Não é correto enviar as _secrets_* - mas por ser um projeto challenge acabei enviando.
+Para os testes é necessário passar algumas variáveis ambiente, como a _secret_ do _token_ de autorização e _URL_ da *Frete Rápido*. Estes são encontrados em ``services/*/.env``. **Não é correto enviar as _secrets_** - mas por ser um projeto challenge acabei enviando.
 
 ```env
 SECRET=71f4a227d52116e7455a50e63146de18174e40a55d163ff57562a344b3fca755
