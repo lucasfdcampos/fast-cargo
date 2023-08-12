@@ -162,6 +162,9 @@ Procurei ao máximo deixar as classes e métodos com atribuições únicas e com
 #### Microservice
 Arquitetura escolhida pela escabilidade, modularidade, elasticidade, tolerância a falhas, testabilidade e confiabilidade.
 
+#### Node.js com NestJS
+Utilizar o Node.js com o framework NestJS oferece uma abordagem eficiente e escalável para o desenvolvimento de microsserviços. A combinação aproveita a natureza assíncrona do Node.js para construir sistemas de alta performance e o NestJS fornece uma estrutura modular, orientada a componentes, que facilita a organização, testabilidade e manutenção do código.
+
 #### Kong Api-Gateway
 Uma _Api-Gateway_ entrega muitas vantagens, neste pequeno projeto serve para direcionar as _requests_ para o _microservice_ adequado, mas de uma maneira geral, contém diversas vantagens, como: suporte a _plugins_, balanceamento de carga e estabilidade, _rate limiting_ e _throttling_, suporte a vários protocolos e escalabidade.
 
