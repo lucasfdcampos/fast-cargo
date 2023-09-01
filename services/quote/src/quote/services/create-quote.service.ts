@@ -25,8 +25,6 @@ export class CreateQuoteService {
 
     const response = await this.postQuoteSimulate(request);
 
-    console.log('response', response);
-
     const carrierInfo = this.extractCarrierInfo(response);
 
     const quoteInstances = this.createQuoteInstances(carrierInfo);
@@ -107,8 +105,6 @@ export class CreateQuoteService {
         },
       },
     );
-
-    console.log('response', response);
 
     return response;
   }
